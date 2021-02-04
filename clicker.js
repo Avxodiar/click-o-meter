@@ -1,6 +1,11 @@
 'use strict';
 
 ( function() {
+    // адрес текущей страницы
+    const location = window.location.href;
+    // ширина окна браузера
+    const width = document.documentElement.clientWidth;
+
     // для сокращения данных храним метку времени со сдвигом на текущую минуту
     let timeoffset = getTimeOffset();
 
@@ -39,11 +44,16 @@
         if(clicks.length) {
 
             let data = {
-                o: timeoffset, //offset
+                l: location,
+                w: width,
+                o: timeoffset,
                 c: clicks
             }
-
             console.log(data);
+
+            const json = JSON.stringify(data);
+            console.log(json);
+
             return true;
         }
 
@@ -87,9 +97,14 @@
         return current.getTime();
     }
 
-    document.addEventListener('click', onClickHandler);
+    document.addEventListener('DOMContentLoaded', () => {
+        // обработка кликов
+        document.addEventListener('click', onClickHandler);
+        // обработка покидания страницы
+        window.onbeforeunload = function() {
+            sendData();
+        }
 
-    let timerId = setInterval(onTimeHandler, 5000);
-    // остановить вывод через 15 секунд
-    setTimeout(() => { clearInterval(timerId); alert('stop'); }, 25000);
+        setInterval(onTimeHandler, 5000);
+    });
 })();
