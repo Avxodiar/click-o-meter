@@ -2,15 +2,16 @@
 
 ( function() {
     // адрес обработчика данных
-    const url = 'http://server.ru/some.php';
+    const url = 'http://clicker.loc/api/click';
+    // интервал между отправлениями данных, в мс
+    const TIME_INTERVAL = 5000;
 
     // адрес текущей страницы
     const location = window.location.href;
     // ширина окна браузера
     const width = document.documentElement.clientWidth;
-
     // для сокращения данных храним метку времени со сдвигом на текущую минуту
-    let timeoffset = getTimeOffset();
+    let timeOffset = getTimeOffset();
 
     // Массив для хранения кликов
     let clicks = [];
@@ -22,7 +23,7 @@
     function onClickHandler(evt) {
         const data = getPageXY(evt);
         const now = new Date();
-        data.t = now.getTime() - timeoffset;
+        data.t = now.getTime() - timeOffset;
 
         clicks.push(data);
     }
@@ -31,12 +32,10 @@
      *  Отправка данных по таймингу
      */
     function onTimeHandler() {
-        // отправка данных
-        if (sendData()) {
-            // сброс данных, для избежания дублирования
-            clicks = [];
-            timeoffset = getTimeOffset();
-        }
+        sendData();
+        // сброс данных, для избежания дублирования
+        clicks = [];
+        timeOffset = getTimeOffset();
     }
 
     /**
@@ -44,30 +43,22 @@
      * @returns {boolean}
      */
     function sendData() {
-        let error = false;
-
-        if(clicks.length) {
-
+        if (clicks.length) {
             const data = {
                 l: location,
                 w: width,
-                o: timeoffset,
+                o: timeOffset,
                 c: clicks
-            }
-            console.log(data);
+            };
+            console.log('send:', data);
 
             fetch(url, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(data)
             })
-            .then(() => { error = true;})
-            .catch(() => {})
+            .catch(() => {});
         }
-
-        return error;
     }
 
     /**
@@ -76,7 +67,7 @@
      * @returns {{x: number, y: number}}
      */
     function getPageXY(e) {
-        let pageX, pageY;
+        var pageX, pageY;
 
         // поддержка старых браузеров, если нет pageX..
         if (e.pageX == null && e.clientX != null) {
@@ -113,8 +104,8 @@
         // обработка покидания страницы
         window.onbeforeunload = function() {
             sendData();
-        }
-
-        setInterval(onTimeHandler, 5000);
+        };
+        // отправка данных через каждые TIME_INTERVAL мс
+        setInterval(onTimeHandler, TIME_INTERVAL);
     });
 })();
