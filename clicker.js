@@ -1,6 +1,9 @@
 'use strict';
 
 ( function() {
+    // адрес обработчика данных
+    const url = 'http://server.ru/some.php';
+
     // адрес текущей страницы
     const location = window.location.href;
     // ширина окна браузера
@@ -41,9 +44,11 @@
      * @returns {boolean}
      */
     function sendData() {
+        let error = false;
+
         if(clicks.length) {
 
-            let data = {
+            const data = {
                 l: location,
                 w: width,
                 o: timeoffset,
@@ -51,13 +56,18 @@
             }
             console.log(data);
 
-            const json = JSON.stringify(data);
-            console.log(json);
-
-            return true;
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(() => { error = true;})
+            .catch(() => {})
         }
 
-        return false;
+        return error;
     }
 
     /**
