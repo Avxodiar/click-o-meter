@@ -11,12 +11,12 @@
 |
 */
 
-Route::view('/', 'index');
+Route::view('/', 'index')->name('home');
 
-Route::view('/test1', 'test1');
+Route::view('/test1', 'test1')->name('test1');
 
-Route::view('/test2', 'test2');
+Route::view('/test2', 'test2')->name('test2');
 
-Route::view('/graph', 'graph');
+Route::view('/graph', 'graph')->name('graph');
 
-Route::view('/map', 'map');
+Route::view('/map', 'map')->name('map');
