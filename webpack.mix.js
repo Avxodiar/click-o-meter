@@ -23,6 +23,7 @@ mix.options({
 mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
     .copy('resources/css/style.css', 'public/css/')
+    .js('resources/js/clicker.js', 'public/js/clicker.min.js')
     .version();
 
 mix.disableNotifications();

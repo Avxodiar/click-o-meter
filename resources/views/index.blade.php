@@ -42,4 +42,4 @@
     </div>
 @endsection
 
-<script src="js/clicker.js"></script>
+<script src="{{ mix('js/clicker.min.js') }}"></script>
