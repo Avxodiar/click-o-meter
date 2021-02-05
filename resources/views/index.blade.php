@@ -41,3 +41,5 @@
         </div>
     </div>
 @endsection
+
+<script src="js/clicker.js"></script>

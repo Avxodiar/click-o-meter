@@ -2,7 +2,7 @@
 
 @section('content')
     <!-- Custom styles for this template -->
-    <link href="/css/form-validation.css" rel="stylesheet">
+    <link href="{{ asset('css/form-validation.css') }}" rel="stylesheet">
 
     <div class="container">
         <div class="m-5">
@@ -228,3 +228,5 @@
     </div>
 
 @endsection
+
+<script src="js/clicker.js"></script>

@@ -1,14 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Jekyll v4.1.1">
-    <title>Click-o-Meter</title>
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/carousel/">
+    <title>Click-o-Meter</title>
 
     <!-- Bootstrap core CSS -->
     <link href="https://getbootstrap.com/docs/4.5/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -31,7 +27,7 @@
         }
     </style>
     <!-- Custom styles for this template -->
-    <link href="/css/carousel.css" rel="stylesheet">
+    <link href="{{ asset('css/carousel.css') }}" rel="stylesheet">
 </head>
 <body>
 <header>
@@ -63,7 +59,5 @@
 <script src="https://getbootstrap.com/docs/4.5/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
         crossorigin="anonymous"></script>
-
-<script src="js/clicker.js"></script>
 </body>
 </html>

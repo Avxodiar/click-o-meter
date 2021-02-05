@@ -195,3 +195,5 @@
     </div><!-- /.container -->
 
 @endsection
+
+<script src="js/clicker.js"></script>
