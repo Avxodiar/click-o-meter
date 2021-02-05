@@ -1,8 +1,6 @@
 @extends('layout')
 
 @section('content')
-    <!-- Custom styles for this template -->
-    <link href="{{ asset('css/form-validation.css') }}" rel="stylesheet">
 
     <div class="container">
         <div class="m-5">
