@@ -2,5 +2,7 @@
     "/js/app.js": "/js/app.js?id=45bdb1373373edce5e04",
     "/js/clicker.min.js": "/js/clicker.min.js?id=b6e15be7719eca883a59",
     "/css/app.css": "/css/app.css?id=965354c6cc634b72556f",
-    "/css/style.css": "/css/style.css?id=aff375ffe0c83c1e1ad0"
+    "/css/style.css": "/css/style.css?id=aff375ffe0c83c1e1ad0",
+    "/css/chart.min.css": "/css/chart.min.css?id=7d8693e997109f2aeac0",
+    "/js/chart.min.js": "/js/chart.min.js?id=9b1ae20c4c7048d6e4a1"
 }

@@ -23,6 +23,8 @@ mix.options({
 mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
     .copy('resources/css/style.css', 'public/css/')
+    .copy('vendor/nnnick/chartjs/dist/Chart.min.css', 'public/css/chart.min.css')
+    .copy('vendor/nnnick/chartjs/dist/Chart.min.js', 'public/js/chart.min.js')
     .js('resources/js/clicker.js', 'public/js/clicker.min.js')
     .version();
 
