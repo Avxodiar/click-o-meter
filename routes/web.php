@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GraphController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,6 +18,6 @@ Route::view('/test1', 'test1')->name('test1');
 
 Route::view('/test2', 'test2')->name('test2');
 
-Route::view('/graph', 'graph')->name('graph');
+Route::get('/graph', [GraphController::class, 'show'])->name('graph');
 
 Route::view('/map', 'map')->name('map');

@@ -1,0 +1,181 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Site;
+use App\Link;
+use Illuminate\Http\Request;
+
+class GraphController extends Controller
+{
+    // Для упрощения показывается 1-ый сайт в БД
+    private const SITE_ID = 1;
+    // количество отображаемых ссылок
+    private const MAX_LINK = 5;
+    // период отображения за 1 последний день
+    private const TIME_PERIOD = 86400;
+    // Кол-во точек на графике по оси Х ( 1 точка на час)
+    private const PRECESSION = 24;
+
+    // цвета отображения ссылок (не константа, т.к. требуется работа со сдвигом указателя)
+    private $COLOR_LINKS = [
+        'green' => "rgb(75, 192, 192)",
+        'purple' => "rgb(153, 102, 255)",
+        'orange' => "rgb(255, 159, 64)",
+        'red' => "rgb(255, 99, 132)",
+        'blue' => "rgb(54, 162, 235)",
+    ];
+
+    /**
+     * Отображение графика кликов за последние сутки
+     * для сайта с номером SITE_ID в Site (таблица sites)
+     * по MAX_LINK первым ссылкам в Link (таблица links)
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function show()
+    {
+        // получаем список ссылок
+        $site = Site::find(self::SITE_ID);
+        $links = $site->links()->take(self::MAX_LINK)->get();
+
+        $showGraph = false;
+        $chartJs = [];
+
+        if (count($links)) {
+            // формируем данные для графика
+            $dataSets = [];
+            foreach ($links as $link) {
+                // подготовленные данные по кликам за TIME_PERIOD времени
+                $clickList = $this->getCliks($link);
+
+                if(count($clickList)) {
+                    // каждая ссылка отображается своим цветом
+                    $color = $this->getNextColor();
+
+                    //Главная страница с адресом '/' в легенде на графике отображается не корректно.<br>
+                    //Поэтому для лучшего восприятия отображается вместе с именем сайта.
+                    $linkName = ($link->link === '/') ? $site->name . $link->link : $link->link;
+
+                    $dataSets[] = [
+                        'label' => $linkName,
+                        'fill' => 'false',
+                        'backgroundColor' => $color,
+                        'borderColor' => $color,
+                        'data' => $clickList,
+                    ];
+                }
+            }
+
+            // если в БД есть данные по кликам
+            if(!empty($dataSets)) {
+                $showGraph = true;
+
+                // создание и настройка отображения линейного графика
+                $chartJs = app()->chartjs
+                    ->name('lineChart')
+                    ->type('line')
+                    ->labels($this->getLabels())
+                    ->datasets($dataSets)
+                    ->optionsRaw("{
+                        title: {
+                            display: true,
+                            text: 'График распределения кликов по времени за последние сутки'
+                        },
+                        tooltips: {
+                            mode: 'index',
+                            intersect: false
+                        },
+                        hover: {
+                            mode: 'nearest',
+                            intersect: true
+                        },
+                        scales: {
+                            xAxes: [{
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Время, ч'
+                                }
+                            }],
+                            yAxes: [{
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Кол-во кликов'
+                                }
+                            }]
+                        }
+                    }");
+            }
+        }
+
+        return view('graph')
+            ->with('title', $site->name)
+            ->with('show', $showGraph)
+            ->with('chartJs', $chartJs);
+    }
+
+    /**
+     * Формирование массива по времени с кол-вом кликов для указанной ссылки
+     * @param $link
+     * @return array
+     */
+    private function getCliks($link): array
+    {
+        $res = $link->clicks()->selectRaw('UNIX_TIMESTAMP(time) AS times')->whereRaw('time > NOW() - INTERVAL 1 DAY');
+        $clicks = $res->get();
+
+        // период времени по которым группируем клики
+        $period = self::TIME_PERIOD / self::PRECESSION;
+
+        $lastDay = time() - self::TIME_PERIOD;
+
+        $clickList = array_fill(0, self::PRECESSION, 0);
+        foreach ($clicks as $click) {
+            $point = (int) (($click->times - $lastDay) / $period);
+            $clickList[$point]++;
+        }
+
+        return $clickList;
+    }
+
+    /**
+     * Генерирция подписей по оси X (часы) в формате HH:MM
+     * @return array
+     */
+    private function getLabels(): array
+    {
+        $currHour = (int) date('H');
+
+        $labels = [];
+        $step = 24 / self::PRECESSION;
+
+        for ($i = 0; $i < self::PRECESSION; $i++) {
+            $time = $i * $step;
+
+            $hour = floor($time);
+            $minute = round(($time - $hour) * 60);
+
+            $newHour = ($currHour + $hour) % 24;
+
+            $labels[] = date("H-i", mktime($newHour, $minute));
+        }
+
+        return $labels;
+    }
+
+    /**
+     * Возвращает следующий цвет из списка $COLOR_LINKS
+     * @return string
+     */
+    private function getNextColor(): string
+    {
+        $colors = &$this->COLOR_LINKS;
+
+        $color = current($colors);
+        next($colors);
+        if (is_null(key($colors))) {
+            reset($colors);
+        }
+
+        return $color;
+    }
+}
