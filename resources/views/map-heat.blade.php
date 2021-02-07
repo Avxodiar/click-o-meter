@@ -16,7 +16,7 @@
                     <p>Ширина:</p>
                 </div>
 
-                @foreach($widthGroups as $id => $group)
+                @foreach($widthLinks as $id => $group)
                     <div>
                         <input
                                 type="radio"
@@ -33,11 +33,11 @@
 
             <div class="options">
                 <div>
-                    <label>Радиус</label>
+                    <label for="radius">Радиус</label>
                     <input type="range" id="radius" value="15" min="10" max="50"><br>
                 </div>
                 <div>
-                    <label>Размытие</label>
+                    <label for="blur">Размытие</label>
                     <input type="range" id="blur" value="10" min="10" max="50">
                 </div>
             </div>
