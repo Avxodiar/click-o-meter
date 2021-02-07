@@ -22,3 +22,4 @@ Route::view('/test2', 'test2')->name('test2');
 Route::get('/graph', [GraphController::class, 'show'])->name('graph');
 
 Route::get('/map', [MapController::class, 'show'])->name('map');
+Route::get('/map/{id}', [MapController::class, 'showLink'])->name('map-link');

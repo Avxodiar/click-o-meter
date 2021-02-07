@@ -1,0 +1,57 @@
+.width-group {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.width-group div {
+    padding: 0 1em;
+
+}
+.width-group p,
+.width-group label {
+    margin: 0;
+}
+.width-group p {
+    font-weight: bold;
+}
+.width-group label,
+.width-group [type=radio] {
+    cursor: pointer;
+}
+
+.iframe-wrap {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+.iframe {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+}
+
+.iframe-wrap iframe {
+    position: absolute;
+    overflow:hidden;
+    width: 200%;
+    height: 200%;
+    transform: scale(0.5);
+    -ms-zoom: 0.5;
+    -moz-transform: scale(0.5);
+    -moz-transform-origin: 0 0;
+    -o-transform: scale(0.5);
+    -o-transform-origin: 0 0;
+    -webkit-transform: scale(0.5);
+    -webkit-transform-origin: 0 0;
+}
+.iframe-wrap canvas {
+    z-index: 2;
+    position: absolute;
+    outline: 4px solid gray;
+}
+
+.options {
+    display: flex;
+    padding: 1em;
+    justify-content: space-evenly;
+}

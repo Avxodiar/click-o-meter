@@ -1,9 +1,11 @@
 {
     "/js/app.js": "/js/app.js?id=45bdb1373373edce5e04",
+    "/js/map-heat.js": "/js/map-heat.js?id=03cc94b0cb952ee2ef77",
     "/js/clicker.min.js": "/js/clicker.min.js?id=b6e15be7719eca883a59",
     "/css/app.css": "/css/app.css?id=965354c6cc634b72556f",
     "/css/style.css": "/css/style.css?id=aff375ffe0c83c1e1ad0",
     "/css/chart.min.css": "/css/chart.min.css?id=7d8693e997109f2aeac0",
     "/js/chart.min.js": "/js/chart.min.js?id=9b1ae20c4c7048d6e4a1",
-    "/js/simpleheat.js": "/js/simpleheat.js?id=9f0f78f50f3526ad4588"
+    "/js/simpleheat.js": "/js/simpleheat.js?id=9f0f78f50f3526ad4588",
+    "/css/map-heat.css": "/css/map-heat.css?id=6f7ccef6e5d0130f5072"
 }
