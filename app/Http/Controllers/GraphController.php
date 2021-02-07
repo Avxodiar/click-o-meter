@@ -2,16 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Site;
-use App\Link;
 use Illuminate\Http\Request;
 
-class GraphController extends Controller
+class GraphController extends ClickController
 {
-    // Для упрощения показывается 1-ый сайт в БД
-    private const SITE_ID = 1;
-    // количество отображаемых ссылок
-    private const MAX_LINK = 5;
     // период отображения за 1 последний день
     private const TIME_PERIOD = 86400;
     // Кол-во точек на графике по оси Х ( 1 точка на час)
@@ -27,47 +21,24 @@ class GraphController extends Controller
     ];
 
     /**
-     * Отображение графика кликов за последние сутки
-     * для сайта с номером SITE_ID в Site (таблица sites)
+     * Отображение для текущего выбранного сайта графика кликов за последние сутки
      * по MAX_LINK первым ссылкам в Link (таблица links)
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function show()
     {
         // получаем список ссылок
-        $site = Site::find(self::SITE_ID);
-        $links = $site->links()->take(self::MAX_LINK)->get();
+        $links = $this->site->links()->take(self::MAX_LINK)->get();
 
         $showGraph = false;
         $chartJs = [];
 
         if (count($links)) {
             // формируем данные для графика
-            $dataSets = [];
-            foreach ($links as $link) {
-                // подготовленные данные по кликам за TIME_PERIOD времени
-                $clickList = $this->getCliks($link);
-
-                if(count($clickList)) {
-                    // каждая ссылка отображается своим цветом
-                    $color = $this->getNextColor();
-
-                    //Главная страница с адресом '/' в легенде на графике отображается не корректно.<br>
-                    //Поэтому для лучшего восприятия отображается вместе с именем сайта.
-                    $linkName = ($link->link === '/') ? $site->name . $link->link : $link->link;
-
-                    $dataSets[] = [
-                        'label' => $linkName,
-                        'fill' => 'false',
-                        'backgroundColor' => $color,
-                        'borderColor' => $color,
-                        'data' => $clickList,
-                    ];
-                }
-            }
+            $dataSets = $this->getDataSet($links);
 
             // если в БД есть данные по кликам
-            if(!empty($dataSets)) {
+            if (!empty($dataSets)) {
                 $showGraph = true;
 
                 // создание и настройка отображения линейного графика
@@ -76,41 +47,47 @@ class GraphController extends Controller
                     ->type('line')
                     ->labels($this->getLabels())
                     ->datasets($dataSets)
-                    ->optionsRaw("{
-                        title: {
-                            display: true,
-                            text: 'График распределения кликов по времени за последние сутки'
-                        },
-                        tooltips: {
-                            mode: 'index',
-                            intersect: false
-                        },
-                        hover: {
-                            mode: 'nearest',
-                            intersect: true
-                        },
-                        scales: {
-                            xAxes: [{
-                                scaleLabel: {
-                                    display: true,
-                                    labelString: 'Время, ч'
-                                }
-                            }],
-                            yAxes: [{
-                                scaleLabel: {
-                                    display: true,
-                                    labelString: 'Кол-во кликов'
-                                }
-                            }]
-                        }
-                    }");
+                    ->optionsRaw($this->getChartJsOption());
             }
         }
 
         return view('graph')
-            ->with('title', $site->name)
+            ->with('title', $this->getSiteName())
             ->with('show', $showGraph)
             ->with('chartJs', $chartJs);
+    }
+
+    /**
+     * Формирование данных для графика
+     * @param $links
+     * @return array
+     */
+    private function getDataSet($links): array
+    {
+        $dataSets = [];
+        foreach ($links as $link) {
+            // подготовленные данные по кликам за TIME_PERIOD времени
+            $clickList = $this->getCliks($link);
+
+            if (count($clickList)) {
+                // каждая ссылка отображается своим цветом
+                $color = $this->getNextColor();
+
+                // Главная страница с адресом '/' в легенде на графике отображается не корректно.<br>
+                // Поэтому для лучшего восприятия отображается вместе с именем сайта.
+                $linkName = ($link->link === '/') ? $this->getSiteName() . $link->link : $link->link;
+
+                $dataSets[] = [
+                    'label' => $linkName,
+                    'fill' => 'false',
+                    'backgroundColor' => $color,
+                    'borderColor' => $color,
+                    'data' => $clickList,
+                ];
+            }
+        }
+
+        return $dataSets;
     }
 
     /**
@@ -177,5 +154,41 @@ class GraphController extends Controller
         }
 
         return $color;
+    }
+
+    /**
+     * Настройка библиотеки ChartJs
+     * @return string
+     */
+    private function getChartJsOption(): string
+    {
+        return "{
+                    title: {
+                        display: true,
+                        text: 'График распределения кликов по времени за последние сутки'
+                    },
+                    tooltips: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    hover: {
+                        mode: 'nearest',
+                        intersect: true
+                    },
+                    scales: {
+                        xAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Время, ч'
+                            }
+                        }],
+                        yAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Кол-во кликов'
+                            }
+                        }]
+                    }
+                }";
     }
 }

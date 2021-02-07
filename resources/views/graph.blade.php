@@ -1,6 +1,6 @@
 @extends('layout')
 
-<style href="{{ mix('css/chart.min.css') }}"  rel="stylesheet"></style>
+<link href="{{ mix('css/chart.min.css') }}"  rel="stylesheet">
 
 @section('content')
     <div class="container">
