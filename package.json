@@ -24,5 +24,8 @@
         "vue": "^2.5.17",
         "webpack": "^5.20.2",
         "webpack-cli": "^4.5.0"
+    },
+    "dependencies": {
+        "simpleheat": "github:mourner/simpleheat"
     }
 }
