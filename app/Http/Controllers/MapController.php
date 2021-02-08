@@ -10,7 +10,11 @@ class MapController extends ClickController
     // количество отображаемых ссылок
     protected const MAX_LINK = 20;
 
+    // максимальное значение позиции кликов по оси Y
     private $maxHeight = 0;
+    // минимальный размер высоты - 20% от ширины
+    private const MIN_HEIGHT = 0.2;
+
 
     // ВАЖНО! Изменение этих параметров потребует изменений
     // в шаблоне map-heat и скрипте-отрисовщике карты кликов js/link-map
@@ -59,11 +63,18 @@ class MapController extends ClickController
                 // добавляем переменная для загрузки данных в simpleheat по первой ссылке
                 $jsData .= 'let data = heatData[' . $widthLinks[0] . '];';
 
+
+                $widthMap = $widthLinks[0];
+                // Для лучшего отображения увеливаем высоту карты кликов
+                // до не менее 20% от ширины страницы
+                $minWidth = $widthMap * self::MIN_HEIGHT;
+                $height = $this->maxHeight < $minWidth ? $minWidth : $this->maxHeight;
+
                 return view('map-heat', [
                     'url' => $this->getSiteName() . $link->link,
                     'widthLinks' => $widthLinks,
-                    'width' => $widthLinks[0],
-                    'maxY' => $this->maxHeight,
+                    'width' => $widthMap,
+                    'maxY' => $height,
                     'jsData' => $jsData,
                 ]);
             }
