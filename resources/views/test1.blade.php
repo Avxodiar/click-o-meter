@@ -1,19 +1,6 @@
 @extends('layout')
 
 @section('content')
-
-    <div class="container">
-        <div class="m-5">
-            <h1>Первая тестовая страница</h1>
-
-            <p class="lead">На данной странице внедрен JS-код отслеживающий клики пользователей.</p>
-            <p class="lead">
-                Не забудьте перед началом тестирования покликать!<br>
-                Жмите смелее! Если нет кликов, то нечего отслеживать!
-            </p>
-        </div>
-    </div>
-
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -28,10 +15,9 @@
                 </svg>
                 <div class="container">
                     <div class="carousel-caption text-left">
-                        <h1>Example headline.</h1>
-                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta
-                            gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
+                        <h1>Первая тестовая страница.</h1>
+                        <p>На данной странице внедрен JS-код отслеживающий клики пользователей.</p>
+                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Кликни меня</a></p>
                     </div>
                 </div>
             </div>
@@ -42,10 +28,9 @@
                 </svg>
                 <div class="container">
                     <div class="carousel-caption">
-                        <h1>Another example headline.</h1>
-                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta
-                            gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
+                        <h1>Первая тестовая страница.</h1>
+                        <p>Не крутись, дай дочитать спокойно! Как ранее уже упоминалось, на данной странице внедрен JS-код отслеживающий клики пользователей. Не забудьте перед началом тестирования покликать!</p>
+                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Тут тоже кликни</a></p>
                     </div>
                 </div>
             </div>
@@ -56,10 +41,9 @@
                 </svg>
                 <div class="container">
                     <div class="carousel-caption text-right">
-                        <h1>One more for good measure.</h1>
-                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta
-                            gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
+                        <h1>Все еще первая тестовая страница.</h1>
+                        <p>Не забудьте перед началом тестирования покликать! Ладно, сейчас обратно карусель прокрутится, тогда и дочитаю. Помните - если нет кликов, то нечего отслеживать!</p>
+                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Не забудь кликнуть</a></p>
                     </div>
                 </div>
             </div>
@@ -89,7 +73,7 @@
                     <rect width="100%" height="100%" fill="#777"/>
                     <text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
                 </svg>
-                <h2>Heading</h2>
+                <h2>Кликни тут</h2>
                 <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh
                     ultricies
                     vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent
@@ -104,7 +88,7 @@
                     <rect width="100%" height="100%" fill="#777"/>
                     <text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
                 </svg>
-                <h2>Heading</h2>
+                <h2>И тут кликни</h2>
                 <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
                     Cras
                     mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor
@@ -119,12 +103,10 @@
                     <rect width="100%" height="100%" fill="#777"/>
                     <text x="50%" y="50%" fill="#777" dy=".3em">140x140</text>
                 </svg>
-                <h2>Heading</h2>
-                <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id
-                    ligula
-                    porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum
-                    nibh,
-                    ut fermentum massa justo sit amet risus.</p>
+                <h2>Вообще, всё кликни!</h2>
+                <p>А вот тут косяк верстки.<br>Вот почему нельзя просто копировать шаблоны со всяких Бутстрапов.</p>
+                <p>"...верить, в наше время, нельзя никому. Порой даже самому себе.. Мне — можно. Хе-хе-хе!"</p>
+                <p>(с) Ленин</p>
                 <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
             </div><!-- /.col-lg-4 -->
         </div><!-- /.row -->
