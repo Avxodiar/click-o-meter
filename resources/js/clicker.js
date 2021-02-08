@@ -4,7 +4,7 @@
     // адрес обработчика данных
     const url = process.env.MIX_CLICKER_URL;
     // интервал между отправлениями данных, в мс
-    const TIME_INTERVAL = 5000;
+    const TIME_INTERVAL = process.env.MIX_TIME_INTERVAL;
 
     // адрес текущей страницы
     const location = window.location.href;
