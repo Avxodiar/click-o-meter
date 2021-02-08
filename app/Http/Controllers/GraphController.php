@@ -108,7 +108,9 @@ class GraphController extends ClickController
         $clickList = array_fill(0, self::PRECESSION, 0);
         foreach ($clicks as $click) {
             $point = (int) (($click->times - $lastDay) / $period);
-            $clickList[$point]++;
+
+            $value = $clickList[$point] ?? 0;
+            $clickList[$point] = ++$value;
         }
 
         return $clickList;
