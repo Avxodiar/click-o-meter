@@ -122,7 +122,7 @@ class Screen
     private function getFileName(): string
     {
         return self::IMAGES_DIR
-            . md5("{$this->url}-{$this->width}-{$this->width}")
+            . md5("{$this->url}-{$this->width}-{$this->height}")
             . $this->type;
     }
 }
